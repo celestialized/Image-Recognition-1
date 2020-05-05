@@ -1,0 +1,33 @@
+#Conv2D 
+
+The most popular solutions in image processing, for feature-extraction purposes, are the Convolutional Neural Networks. 
+These can be easily designed by using different instances of Keras.layers.Conv2D which implements 2D convolutional layers. Here is a simplified example of use: Conv2D(filters=32, kernel_size=(3, 3), activation='relu',input_shape=(28,28,1), padding='same') 
+• Filters is the number of outputs we want to give to this specific layer. 
+• Kernel_size are the two integers specifying the dimension of the kernel matrix. This is also our matrix of trainable weights for this layer. 
+• Activation is the activation function we want to use in our artificial neurons and ‘relu’ is one of the most popular ones.
+• Input_shape the shape of the input to this layer. It is usually a matrix whose last element is the channel dimension which in our case cane be set to 1. This should be set up only if the Conv2D layer is the input layer. 
+• Padding is the type of padding we want to apply to the output of our convolutional layer. It can be left to ‘same’.
+
+#MaxPooling2D 
+
+Convolutional layers are usually followed by a downsampling step, which can be performed through keras.layers.MaxPooling2D. MaxPooling2D(pool_size=(2, 2), padding='same') 
+• Pool_size are two integers that specify the dimension of the downscaling. 
+• Padding is the type of padding we want to apply to the output of our convolutional layer. It can be left to ‘same’.
+
+#Dropout 
+
+One of the main problems when using function approximators is balancing the neural network architecture in such a way that it does not overfit the data. Usually this is guaranteed through the usage of a Validation set, but with big architectures, often, this is not enough. One powerful and broadly used technique is the dropout. This is simply about randomly deactivating (setting to 0) a certain fraction of the weights of the network at learning time. In Keras, this is possible using keras.layers.Dropout. 
+
+Dropout(rate=0.01) 
+• Rate is the percentage of input values to this layer that will be set to zero at each learning step, that is, they will not contribute to the computation of the output of this layer. 
+
+The combination of these three Keras layers is able to perform a robust feature extraction exploiting the power of Convolutional Neural Networks. Sometimes this is not enough and you could want to pass through a further Convolutional unit. Once the feature extraction is designed, we want a Multi-layer Perceptron (MLP) to elaborate the features and perform the classification.
+
+#Flattening 
+
+The first step to elaborate the extracted features is making them available to an MLP. The output of the convolutions is an activation layer, which is a matrix. An MLP, however, processes onedimensional inputs. In order to give the activation layers as input to the MLP we need to stretch them into a single (long) vector with: keras.layers.Flatten.
+
+#Dense Layers
+We are now ready to design our MLP for classification. In order to create one layer of such an architecture, you can use keras.layers.Dense. Dense(units=32, activation='relu') • Units is the number of neurons in the layer.
+• Activation is the activation function of the neurons, and ‘relu’ is one of the most popular ones (we saw another one that was easy to differentiate in class: the sigmoid). 
+As in the convolutional case, after a dense layer we might want to use a keras.layers.Dropout layer in order to be robust against overfitting 
